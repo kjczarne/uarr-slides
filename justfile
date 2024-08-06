@@ -1,8 +1,6 @@
-run:
-    # manim -pql slides.py
-    manim-slides render -ql slides.py Presentation
-    manim-slides present Presentation
-    
-run_prod:
-    manim-slides render slides.py Presentation
+run OUTPUT_FILENAME FORMAT="mp4" QUALITY="l":
+    manim render -pq{{QUALITY}} --format {{FORMAT}} -o {{OUTPUT_FILENAME}} uarr_animations/main.py
+
+slides_run QUALITY="l":
+    manim-slides render -q{{QUALITY}} uarr_animations/slides.py Presentation
     manim-slides present Presentation

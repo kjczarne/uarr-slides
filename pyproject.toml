@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "uarr-animations"
+version = "0.1.0"
+description = ""
+authors = ["Krzysztof J. Czarnecki <kjczarne@gmail.com>"]
+readme = "README.md"
+packages = [{include = "uarr_animations"}]
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.13"
+manim = "^0.18.1"
+manim-slides = "^5.1.7"
+numpy = ">=1.16,<2"
+manim-ml = "^0.0.24"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

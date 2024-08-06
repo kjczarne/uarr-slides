@@ -2,6 +2,7 @@ import numpy as np
 from manim import *
 from manim_slides import Slide
 from dataclasses import dataclass, asdict, field
+import networkx as nx
 
 
 @dataclass(frozen=True)
@@ -144,6 +145,33 @@ class Presentation(StyledSlide):
         self.play_and_wait(Create(t3), run_time=0.5, wait=2)
         return t, t2, t3
 
+    def prior_works_2(self):
+        t = self.slide_title("Denoising Autoencoders")
+        ae_diagram = ImageMobject("images/uarr-autoencoder.drawio.png")\
+            .scale(1.25)\
+            .next_to(t, DOWN, buff=0.5)
+        t2 = self.text("Denoising Autoencoders are simple U-Nets trained for the denoising task")\
+            .next_to(ae_diagram, DOWN, buff=0.5)
+        G = nx.Graph()
+        G.add_node("Input")
+        G.add_node("Encoder")
+        G.add_node("Latent Space")
+        G.add_node("Decoder")
+        G.add_node("Output")
+        G.add_edges_from([("Input", "Encoder"), ("Encoder", "Latent Space"), ("Latent Space", "Decoder"), ("Decoder", "Output")])
+        # nodes = VGroup(*[Text(node, color=BLACK) for node in G.nodes])
+        # edges = VGroup(*[Line(pos[u], pos[v], color=BLACK) for u, v in G.edges])
+        nodes = list(G.nodes)
+        edges = list(G.edges)
+        mG = Graph(nodes, edges, layout="circular", labels=True)
+        mG.set_colors_by_node([BLUE, GREEN, YELLOW, RED, PURPLE])
+        self.play_and_wait(Create(t), run_time=0.5, wait=1)
+        # self.play_and_wait(FadeIn(ae_diagram), run_time=0.5, wait=1)
+        self.play_and_wait(Create(mG), run_time=0.5, wait=1)
+        self.play_and_wait(Create(t2), run_time=0.5, wait=2)
+        # TODO: If I have enough time I could turn these architecture diagrams into animations
+        return t, ae_diagram, t2
+
     def the_problem_with_prior_works(self):
         t = self.slide_title("The Problem with current SOTA", t2s={"et al.": ITALIC})
         t2 = self.text("Training on real data").next_to(t, DOWN, buff=0.5)
@@ -193,10 +221,11 @@ class Presentation(StyledSlide):
 
         slides = [
             # self.title_slide,
-            self.what_are_microarrays,
+            # self.what_are_microarrays,
             # self.problem_statement,
             # self.problem_statement_2,
             # self.prior_works,
+            self.prior_works_2,
             # self.the_problem_with_prior_works,
             # self.the_idea,
             # self.synthetic_data_generation
